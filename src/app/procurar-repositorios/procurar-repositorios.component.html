@@ -1,0 +1,37 @@
+<div class="body_content">
+    <div class="card cad_tam malt mat-elevation-z8">
+      <div class="card-header ">
+        Inicio >
+        <a style="color: #9b1a37;">Pesquisas</a>
+        <br />
+        <br />
+        <span class="text_title">Pesquisa Geral </span></div>
+      <div class="card-body">
+        <form [formGroup]="procurarUsuario" enctype="multipart/form-data">
+          <div class="row justify-content-center">
+            <div class="col-lg-10 input-group mb-3">
+              <input type="text" placeholder="Texto para Pesquisa" aria-label="Texto para Pesquisa" class="form-control"
+                formControlName="valor" (keyup.enter)="buscar()" >
+              <div class="input-group-append" style="margin-right: 4%">
+                <button class="btn btn-outline-primary" type="button" (click)="buscar()">
+                  <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
+                </button>
+              </div>
+              <!-- <div *ngIf="procurarUsuario.stringPesquisa.errors" class="invalid-feedback">
+                <div *ngIf="procurarUsuario.stringPesquisa.errors.required">Insira um texto para pesquisa</div>
+              </div> -->
+            </div>
+          </div>
+          <br>
+          <br>
+        </form>
+        <div class="container">
+          <div class="row justify-content-center">
+            <br />
+            <button class="btn btn-primary" type="button" title="Pesquisar Atos" (click)="buscar()" accesskey="enter">Pesquisar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true }"></ngx-loading>
+  </div>
