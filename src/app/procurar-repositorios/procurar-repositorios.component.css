@@ -1,0 +1,79 @@
+.form {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+form > button {
+  width: 100%;
+}
+
+.row-height {
+  min-height: 100%;
+  min-height: 91vh;
+  display: flex;
+  align-items: center;
+}
+
+.align-middle {
+  width: 70%;
+  display: block;
+  margin: 0 auto;
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+.searchDataTable {
+  width: 25%;
+  float: right;
+  margin-bottom: 0;
+}
+
+.text_title {
+  color: #45588c;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.card-header {
+  background-color: #fff;
+  padding: 1.3rem 1.25rem !important;
+  border-bottom: none !important;
+  margin: 20px 0px !important;
+}
+
+th {
+  font-weight: bold;
+}
+
+tr.mat-footer-row, tr.mat-row {
+  height: 48px;
+}
+
+th, td {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+  padding: 0;
+  border-bottom-width: 1px;
+}

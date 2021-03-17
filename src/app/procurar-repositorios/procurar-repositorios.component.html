@@ -1,37 +1,67 @@
-<div class="body_content">
-    <div class="card cad_tam malt mat-elevation-z8">
-      <div class="card-header ">
-        Inicio >
-        <a style="color: #9b1a37;">Pesquisas</a>
-        <br />
-        <br />
-        <span class="text_title">Pesquisa Geral </span></div>
-      <div class="card-body">
-        <form [formGroup]="procurarUsuario" enctype="multipart/form-data">
-          <div class="row justify-content-center">
-            <div class="col-lg-10 input-group mb-3">
-              <input type="text" placeholder="Texto para Pesquisa" aria-label="Texto para Pesquisa" class="form-control"
-                formControlName="valor" (keyup.enter)="buscar()" >
-              <div class="input-group-append" style="margin-right: 4%">
-                <button class="btn btn-outline-primary" type="button" (click)="buscar()">
-                  <span class="fa fa-search form-control-feedback" aria-hidden="true"></span>
-                </button>
-              </div>
-              <!-- <div *ngIf="procurarUsuario.stringPesquisa.errors" class="invalid-feedback">
-                <div *ngIf="procurarUsuario.stringPesquisa.errors.required">Insira um texto para pesquisa</div>
-              </div> -->
-            </div>
-          </div>
-          <br>
-          <br>
+<div class="container row-height">
+    <div class="row justify-content-center align-middle">
+        <form [formGroup]="procurarUsuario" class="form">
+            <mat-form-field class="full-width">
+                <mat-label>Nome do usuário</mat-label>
+                <input type="text" formControlName="valor" matInput placeholder="Ex: victorbgh"
+                    (keyup.enter)="buscar()">
+            </mat-form-field>
+            <mat-error *ngIf="submitted && procurarUsuario.get('valor').errors?.required">Nome do usuário é
+                obrigatório</mat-error>
+            <br>
+            <button mat-raised-button color="primary" (click)="buscar()" title="Buscar">
+                <mat-icon>search</mat-icon>&nbsp;Buscar
+            </button>
         </form>
-        <div class="container">
-          <div class="row justify-content-center">
-            <br />
-            <button class="btn btn-primary" type="button" title="Pesquisar Atos" (click)="buscar()" accesskey="enter">Pesquisar</button>
-          </div>
+
+        <div class="mat-elevation-z2" *ngIf="dataSource.data.length > 0">
+            <div class="card-header">
+                <span class="text_title">Lista de repositórios</span>
+                <div class="searchDataTable form-group has-search ">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input (keyup)="applyFilter($event.target.value)" placeholder="Pesquisar" class="form-control">
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" class="table">
+                    <ng-container matColumnDef="nome">
+                        <th mat-header-cell *matHeaderCellDef><strong> Nome do repositório </strong></th>
+                        <td mat-cell *matCellDef="let element"><a>{{(element?element.name:"")}}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="linguagem">
+                        <th mat-header-cell *matHeaderCellDef><strong> Linguagem </strong></th>
+                        <td mat-cell *matCellDef="let element"><a>{{(element?element.language:"")}}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="dt_criacao">
+                        <th mat-header-cell *matHeaderCellDef><strong> Data de criação </strong></th>
+                        <td mat-cell *matCellDef="let element"><a>{{(element.created_at | date: 'dd/MM/yyyy')}}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acoes">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-mini-fab color="primary" class="btn-sm" (click)="visualizarRepositorio(element)"
+                                title="Visualizar repositório">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="alert alert-info" *ngIf="repositorios.length == 0" role="alert">
+                    Nenhum repositorio encontrado.
+                </div>
+
+                <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"
+                    [length]="repositorios.length" [pageIndex]="paginaLista"
+                    (page)="pageEvent = pageNavigations($event)">
+                </mat-paginator>
+            </div>
         </div>
-      </div>
+        <br><br>
     </div>
-    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true }"></ngx-loading>
-  </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
