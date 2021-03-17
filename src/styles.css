@@ -40,3 +40,7 @@ th, td {
 #toast-container > div {
     opacity:1;
 }
+
+.cdk-overlay-pane{
+    overflow: auto !important;
+}

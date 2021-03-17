@@ -19,4 +19,18 @@
 label{
     font-weight: bold;
     margin-right: 5px;
+    font-size: 18px;
+}
+
+.custom-label{
+    text-align: center;
+    display: block;
+}
+
+table{
+    display: inline-table;
+}
+
+.row{
+    margin-bottom: 10px;
 }

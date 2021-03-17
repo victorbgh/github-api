@@ -68,9 +68,9 @@ export class ModalVisualizarRepositorioComponent implements OnInit {
 
   public async buscarDados(){
     this.buscarLinguagensDetalhada();
-    // this.buscarBranches(this.repositorio.owner.login, this.repositorio.name);
-    // this.buscarCommits(this.repositorio.owner.login, this.repositorio.name);
-    // this.buscarTags(this.repositorio.owner.login, this.repositorio.name);
+    this.buscarBranches(this.repositorio.owner.login, this.repositorio.name);
+    this.buscarCommits(this.repositorio.owner.login, this.repositorio.name);
+    this.buscarTags(this.repositorio.owner.login, this.repositorio.name);
   }
 
   public buscarLinguagensDetalhada(){
@@ -87,15 +87,13 @@ export class ModalVisualizarRepositorioComponent implements OnInit {
           result.forEach(element => {
             this.legendas.push(element[0]);
             this.valores.push(element[1]);
-  
-            // NOTE: https://stackoverflow.com/questions/52098989/how-to-put-dynamic-colors-for-pie-chart-chart-js
+            // NOTE[I]: https://stackoverflow.com/questions/52098989/how-to-put-dynamic-colors-for-pie-chart-chart-js
             // NOTE[II]: Verificamos se já existe um hexa definido pra linguagem, caso não tenha, gera uma cor aleatoriamente. By victor
             if(this.cor[element[0]]){
               this.stringDeHex.push(this.cor[element[0]]);
             }else{
               this.stringDeHex.push(this.getRandomColor());
-            }
-            
+            }   
           });
           this.colors[0].backgroundColor = this.stringDeHex;
         }
