@@ -1,12 +1,27 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
+import { ModalVisualizarRepositorioComponent } from './modal/modal-visualizar-repositorio/modal-visualizar-repositorio.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ProcurarRepositoriosComponent } from './procurar-repositorios/procurar-repositorios.component';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule
       ],
+      declarations: [
+        AppComponent,
+        ProcurarRepositoriosComponent,
+        NavbarComponent,
+        ModalVisualizarRepositorioComponent
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -21,11 +36,5 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('github-api');
   });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('github-api app is running!');
-  });
+  
 });
