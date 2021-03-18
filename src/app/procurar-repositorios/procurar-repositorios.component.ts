@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormGroupDirective, NgFo
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { NotificationService } from '../components/notification/notification';
 import { ModalVisualizarRepositorioComponent } from '../modal/modal-visualizar-repositorio/modal-visualizar-repositorio.component';
 import { GitHubService } from '../service/github.service';
 
@@ -20,10 +19,10 @@ export class ProcurarRepositoriosComponent implements OnInit {
   public loading = false;
 
   repositorios = [];
-  
+
   public dataSource = new MatTableDataSource<any>();
 
-  public displayedColumns = ['nome', 'linguagem','dt_criacao', 'acoes'];
+  public displayedColumns = ['nome', 'linguagem', 'dt_criacao', 'acoes'];
 
   public paginaLista: number = 0;
 
@@ -33,8 +32,7 @@ export class ProcurarRepositoriosComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private service: GitHubService,
-    private dialog: MatDialog,
-    private notification: NotificationService) { }
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -44,29 +42,31 @@ export class ProcurarRepositoriosComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-}
+  }
 
-pageNavigations(event?: PageEvent) {
-  this.paginaLista = event.pageIndex;
-  this.pageSize = event.pageSize;
-  this.iterator();
-}
+  pageNavigations(event?: PageEvent) {
+    this.paginaLista = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.iterator();
+  }
 
-private iterator() {
-  const end = (this.paginaLista + 1) * this.pageSize;
-  const start = this.paginaLista * this.pageSize;
-  const part = this.repositorios.slice(start, end);
-  this.dataSource.data = part;
-}
+  private iterator() {
+    const end = (this.paginaLista + 1) * this.pageSize;
+    const start = this.paginaLista * this.pageSize;
+    const part = this.repositorios.slice(start, end);
+    this.dataSource.data = part;
+  }
 
-  public buscar(){
+  // NOTE [I]: A api do github permite apenas 5000 requisições por hora, se vc ultrapassar o numero 
+  // o github retorna um erro 403.
+  // NOTE [II]: https://codetraveler.io/2021/01/12/introducing-githubapistatus/#:~:text=If%20you've%20ever%20had,APIs%20will%20return%20403%20FORBIDDEN.
+  public buscar() {
     this.submitted = true;
-    if(this.procurarUsuario.valid){
+    if (this.procurarUsuario.valid) {
       this.loading = true;
       const valor = this.procurarUsuario.get('valor').value;
       this.service.buscarUsuarios(valor).subscribe((response) => {
-        console.log(response);
-        if(response.length > 0){
+        if (response.length > 0) {
           this.repositorios = response;
           this.iterator();
         }
@@ -74,10 +74,6 @@ private iterator() {
       },
         error => {
           this.loading = false;
-          if(error.status == 404){
-            this.notification.showError("Usuário não encontrado");
-          }
-          console.log(error);
         });
     }
   }
@@ -89,7 +85,7 @@ private iterator() {
     }
   }
 
-  public visualizarRepositorio(repositorio){
+  public visualizarRepositorio(repositorio) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = { obj: repositorio };

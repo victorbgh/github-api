@@ -8,6 +8,7 @@
                 <a href="{{repositorio.html_url}}" target="_blank">Link do repositorio</a>
             </div>
             <div class="col stats">
+                <span><i class="fa fa-eye"></i>&nbsp;{{repositorio.watchers_count}}</span>
                 <span><i class="fa fa-star"></i>&nbsp;{{repositorio.stargazers_count}}</span>
                 <span><i class="fa fa-code-fork"></i>&nbsp;{{repositorio.forks_count}}</span>
             </div>
@@ -37,8 +38,10 @@
                 <label>Data de criação: </label>{{repositorio?.created_at | date: 'dd/MM/yyyy'}}
             </div>
             <div class="col-md-4">
-                <label>Tamanho do projeto: </label>{{humanFileSize(repositorio?.size, 'kB')}}
-                <!-- <label>Tamanho do projeto: </label>{{repositorio?.size}} -->
+                <label>Ultimo push: </label>{{repositorio?.pushed_at | date: 'dd/MM/yyyy'}}
+            </div>
+            <div class="col-md-4">
+                <label>Tamanho do projeto: </label>{{repositorio?.size | filesize}}
             </div>
         </div>
         <br><br>
@@ -56,7 +59,9 @@
                         <tr *ngFor="let branch of branches; let i = index">
                             <td>{{ branch?.name }}</td>
                             <td>
-                                <a href="" target="_blank" title="acessar url da branch" mat-mini-fab color="primary" role="button"><i class="fa fa-external-link"></i></a>
+                                <a href="{{repositorio.html_url}}/tree/{{branch.name}}" target="_blank"
+                                    title="acessar url da branch" mat-mini-fab color="primary" role="button"><i
+                                        class="fa fa-external-link"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -79,7 +84,35 @@
                         <tr *ngFor="let tag of tags; let i = index">
                             <td>{{ tag?.name }}</td>
                             <td>
-                                <a mat-mini-fab title="Download" color="primary" href="{{tag?.zipball_url}}" role="button"><i class="fa fa-download"></i></a>
+                                <a mat-mini-fab title="Download" color="primary" href="{{tag?.zipball_url}}"
+                                    role="button"><i class="fa fa-download"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="row" *ngIf="colaboradores && colaboradores.length > 0">
+            <div class="col-md-12">
+                <label class="custom-label">Colaboradores:</label>
+                <table class="table table-striped table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Nome</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let colaborador of colaboradores; let i = index">
+                            <td><img [src]="colaborador?.avatar_url || 'assets/avatar-blank.png'" width="60px"
+                                    height="auto"></td>
+                            <td>{{ colaborador?.login }}</td>
+                            <td>
+                                <a mat-mini-fab title="Acessar github do usuário" color="primary"
+                                    href="{{colaborador?.html_url}}" target="_blank" role="button"><i
+                                        class="fa fa-external-link"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -89,3 +122,7 @@
 
     </div>
 </div>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" title="fechar" (click)="close()">Fechar</button>
+</mat-dialog-actions>

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; 
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,8 @@ import { ModalVisualizarRepositorioComponent } from './modal/modal-visualizar-re
 import { MatDialogModule } from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
 import { ChartsModule } from 'ng2-charts';
+import { NgxFilesizeModule } from 'ngx-filesize';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { ChartsModule } from 'ng2-charts';
     MatPaginatorModule,
     NgxLoadingModule.forRoot({}),
     ChartsModule,
+    NgxFilesizeModule,
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-top-center',
@@ -57,7 +60,9 @@ import { ChartsModule } from 'ng2-charts';
     }),
     NgbModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     ModalVisualizarRepositorioComponent
